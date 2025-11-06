@@ -1,17 +1,20 @@
 import { Elysia } from 'elysia'
-import { ITaskController } from '../../../domain/repositories/ITaskController';
-import { TaskController } from '../TaskController';
-import { ITaskService } from '../../../domain/repositories/ITaskService';
-import { TaskService } from '../../../domain/services/TaskService';
-import { ITaskRepository } from '../../../domain/repositories/ITaskRepository';
-import { TaskRepository } from '../../repositories/TaskRepository';
-import { prisma } from '../../config/adapters/db/prisma';
-import { ApiResponse } from '../../../shared/response/ApiResponse';
 import { Task } from '@prisma/client';
+import { TaskRepository } from '#infrastructure/repositories/TaskRepository.js';
+import { ITaskRepository } from '#domain/repositories/ITaskRepository.js';
+import { ITaskService } from '#domain/repositories/ITaskService.js';
+import { ITaskController } from '#domain/repositories/ITaskController.js';
+import { ApiResponse } from '#shared/response/ApiResponse.js';
+import { TaskService } from '#domain/services/TaskService.js';
+import { TaskController } from '../TaskController.js';
+import { prisma } from '#infrastructure/config/adapters/db/prisma.js';
+import { IDueChecker } from '#domain/repositories/IDueChecker.js';
+import { DueChecker } from '#infrastructure/workers/DueChecker.js';
 
 export async function taskRoutes(app: Elysia){
     const taskRepo: ITaskRepository = new TaskRepository(prisma)
-    const taskService: ITaskService = new TaskService(taskRepo)
+    const dueChecker: IDueChecker = new DueChecker(taskRepo)
+    const taskService: ITaskService = new TaskService(taskRepo, dueChecker)
     const taskController: ITaskController = new TaskController(taskService)
 
     app.get("/tasks", async ({ query }) => { 

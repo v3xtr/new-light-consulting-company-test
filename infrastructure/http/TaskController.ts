@@ -1,8 +1,8 @@
+import { ITaskController } from "#domain/repositories/ITaskController.js";
+import { ITaskService } from "#domain/repositories/ITaskService.js";
+import { createTaskSchema, getTaskByStatusSchema, manageTaskByIdSchema, updateTaskSchema } from "#shared/dto/taskDto.js";
+import { ApiResponse } from "#shared/response/ApiResponse.js";
 import { Task } from "@prisma/client";
-import { createTaskSchema, getTaskByStatusSchema, manageTaskByIdSchema, updateTaskSchema } from "../../application/dto/taskDto";
-import { ITaskController } from "../../domain/repositories/ITaskController";
-import { ITaskService } from "../../domain/repositories/ITaskService";
-import { ApiResponse } from "../../shared/response/ApiResponse";
 
 export class TaskController implements ITaskController {
     constructor(private readonly taskService: ITaskService){}

@@ -1,13 +1,19 @@
-import { CreateTaskDTO, GetTaskByIdDTO, GetTaskByStatusDTO, UpdateTaskSchemaDTO } from "../../application/dto/taskDto";
-import { ITaskRepository } from "../repositories/ITaskRepository"
-import { ITaskService } from "../repositories/ITaskService"
+import { IDueChecker } from "#domain/repositories/IDueChecker.js";
+import { ITaskRepository } from "#domain/repositories/ITaskRepository.js";
+import { ITaskService } from "#domain/repositories/ITaskService.js";
+import { CreateTaskDTO, GetTaskByIdDTO, GetTaskByStatusDTO, UpdateTaskDTO,  } from "#shared/dto/taskDto.js";
 import { Task } from "@prisma/client";
 
 export class TaskService implements ITaskService{
-    constructor(private readonly taskRepo: ITaskRepository){}
+    constructor(
+        private readonly taskRepo: ITaskRepository,
+        private readonly dueChecker: IDueChecker
+    ){}
 
-    async createTask(data: CreateTaskDTO): Promise<Task>{
-        return this.taskRepo.create(data)
+    async createTask(data: CreateTaskDTO): Promise<Task> {
+        const task = await this.taskRepo.create(data);
+        await this.dueChecker.checkTask(task);
+        return task;
     }
 
     async getAllTasks(status?: GetTaskByStatusDTO | undefined): Promise<Task[] | null> {
@@ -18,10 +24,11 @@ export class TaskService implements ITaskService{
         return this.taskRepo.getById(id)
     }
 
-    async updateTask(id: GetTaskByIdDTO, data: UpdateTaskSchemaDTO): Promise<Task> {
-        return this.taskRepo.update(id, data);
+    async updateTask(id: GetTaskByIdDTO, data: UpdateTaskDTO): Promise<Task> {
+        const task = await this.taskRepo.update(id, data);
+        await this.dueChecker.checkTask(task);
+        return task;
     }
-
 
     async deleteTask(id: GetTaskByIdDTO): Promise<Task> {
         return this.taskRepo.delete(id)

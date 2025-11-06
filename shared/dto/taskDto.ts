@@ -26,5 +26,5 @@ export const getTaskByStatusSchema = z.object({
 
 export type CreateTaskDTO = Omit<Task, "id" | "createdAt" | "updatedAt">;
 export type GetTaskByIdDTO = z.infer<typeof manageTaskByIdSchema>
-export type UpdateTaskSchemaDTO = z.infer<typeof updateTaskSchema>
+export type UpdateTaskDTO = z.infer<typeof updateTaskSchema>
 export type GetTaskByStatusDTO = z.infer<typeof getTaskByStatusSchema>;

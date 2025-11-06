@@ -1,3 +1,5 @@
+import { logger } from "#infrastructure/config/adapters/logger/logger.js"
+
 export class ApiResponse<T = string>{
     constructor(
         private readonly statusCode: number,
@@ -5,6 +7,7 @@ export class ApiResponse<T = string>{
     ){}
 
     async statusOk(){
+        logger.info("Request approved")
         return {
             statusCode: this.statusCode,
             body: this.body
@@ -12,6 +15,7 @@ export class ApiResponse<T = string>{
     }
 
     async statusCreated(){
+        logger.info("Task Created")
         return {
             statusCode: this.statusCode,
             body: this.body
@@ -19,6 +23,7 @@ export class ApiResponse<T = string>{
     }
 
     async statusBadRequest(){
+        logger.info("Bad Request")
         return {
             statusCode: this.statusCode,
             body: this.body
@@ -26,6 +31,7 @@ export class ApiResponse<T = string>{
     }
     
     async statusNotFound(){
+        logger.info("Not Found")
         return {
             statusCode: this.statusCode,
             body: this.body
@@ -33,6 +39,7 @@ export class ApiResponse<T = string>{
     }
     
     async statusConflict(){
+        logger.info("Request in Conflict Task exists")
         return {
             statusCode: this.statusCode,
             body: this.body
@@ -40,6 +47,7 @@ export class ApiResponse<T = string>{
     }
     
     async statusInternalServerError(){
+        logger.info("Internal Server Error")
         return {
             statusCode: this.statusCode,
             body: this.body

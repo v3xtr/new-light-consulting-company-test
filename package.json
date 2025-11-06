@@ -7,14 +7,18 @@
   },
   "dependencies": {
     "@prisma/client": "^6.18.0",
+    "@types/node": "^24.10.0",
     "dotenv": "^17.2.3",
     "elysia": "^1.4.15",
+    "ioredis": "^5.8.2",
     "prisma": "^6.18.0",
+    "typescript": "^5.9.3",
     "winston": "^3.18.3",
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "tsup": "^8.5.0"
   },
   "module": "src/index.js"
 }

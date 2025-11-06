@@ -1,6 +1,7 @@
+import { ITaskRepository } from "#domain/repositories/ITaskRepository.js";
+import { CreateTaskDTO, GetTaskByIdDTO, GetTaskByStatusDTO, UpdateTaskDTO } from "#shared/dto/taskDto.js";
 import { PrismaClient, Task } from "@prisma/client";
-import { ITaskRepository } from "../../domain/repositories/ITaskRepository";
-import { CreateTaskDTO, GetTaskByIdDTO, GetTaskByStatusDTO, UpdateTaskSchemaDTO } from "../../application/dto/taskDto";
+
 
 export class TaskRepository implements ITaskRepository{
     constructor(private readonly prisma: PrismaClient){}
@@ -21,7 +22,7 @@ export class TaskRepository implements ITaskRepository{
         })
     }
 
-    async update(id: GetTaskByIdDTO, data: UpdateTaskSchemaDTO): Promise<Task>{
+    async update(id: GetTaskByIdDTO, data: UpdateTaskDTO): Promise<Task>{
         return this.prisma.task.update({
             where: { id: id.id },
             data
