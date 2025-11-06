@@ -13,7 +13,7 @@ export const manageTaskByIdSchema = z.object({
 })
 
 export const updateTaskSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string("550e8400-e29b-41d4-a716-446655440000"),
   title: z.string().optional(),
   description: z.string().optional(),
   dueDate: z.string().optional(),

@@ -12,6 +12,7 @@ export default defineConfig({
   ],
   outDir: "dist",
   format: ["esm"],
+  platform: "node",
   target: "es2020",
   splitting: false,
   sourcemap: true,
